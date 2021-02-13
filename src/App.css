@@ -26,14 +26,30 @@
 }
 .fileSectionToggle {
   align-self: flex-start;
+  display: flex;
+  justify-content: flex-start;  
   width: 100%;
   font-size: 18px;
   padding: 5px;
+  border-bottom: 1px solid gray;
   background-color: #eeeeee;
 }
 .fileSectionToggle:hover {
   background-color:#aaaaaa;
   cursor: pointer;
+}
+.fileSectionTitle {
+  margin-left: 10px;
+}
+.menuIcon {
+  width: 25px;
+  position: absolute;
+  align-self: center;
+  right: 5px;
+}
+.menuIcon.rotate {
+  transform: rotate(180deg); 
+
 }
 .fileSection {
   display: flex;
@@ -41,7 +57,6 @@
   align-items: flex-start;
   max-height: 200px;
   transition: max-height .5s;
-  border-bottom: 1px solid gray;
   background-color: #eeeeee;
 }
 .fileSection.closed {

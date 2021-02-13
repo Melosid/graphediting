@@ -1,38 +1,84 @@
-.App {
-  text-align: center;
+.app {
+  display: flex;
+  height: 100vh;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.graph {
+  flex: 2;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.options {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  box-shadow: -1px 0px gray;
 }
-
-.App-link {
-  color: #61dafb;
+.header {
+  font-size: 30px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.description {
+  margin-bottom: 20px;
+}
+.sections{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.fileSectionToggle {
+  align-self: flex-start;
+  width: 100%;
+  font-size: 18px;
+  padding: 5px;
+  background-color: #eeeeee;
+}
+.fileSectionToggle:hover {
+  background-color:#aaaaaa;
+  cursor: pointer;
+}
+.fileSection {
+  display: flex;
+  flex-direction: column;  
+  align-items: flex-start;
+  max-height: 200px;
+  transition: max-height .5s;
+  border-bottom: 1px solid gray;
+  background-color: #eeeeee;
+}
+.fileSection.closed {
+  max-height: 0;
+}
+.fileSection.closed :nth-child(n) {
+  visibility: hidden;
+}
+.uploadGr {
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+.uploadGr:hover {
+  background-color:#aaaaaa;
+  cursor: pointer;
+}
+.uploadIcon {
+  width: 35px;
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+.uploadText {
+}
+.addArff {
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+.addArff:hover {
+  background-color:#aaaaaa;
+  cursor: pointer;
+}
+.plusIcon {
+  width: 30px;
+  margin-top: 10px;
+  margin-left: 17px;
+  margin-right: 22px;
+  margin-bottom: 10px;
 }

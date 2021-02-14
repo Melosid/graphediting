@@ -9,13 +9,16 @@ import addNode from './icons/addNode.svg'
 import links from './icons/links.svg'
 import modify from './icons/modify.svg'
 import removeNode from './icons/removeNode.svg'
-
+import csvFile from './icons/csvFile.svg'
+import outputFile from './icons/outputFile.svg'
 
 const App = () => {
   const fileSectionRef = useRef()
   const fileSectionMenuIconRef = useRef()
   const graphSectionRef = useRef()
   const graphSectionMenuIconRef = useRef()
+  const downloadSectionRef = useRef()
+  const downloadSectionMenuIconRef = useRef()
 
   const toggleFileSection = () => {
     const section = fileSectionRef.current
@@ -28,6 +31,13 @@ const App = () => {
     const section = graphSectionRef.current
     section.classList.toggle('closed')
     const icon = graphSectionMenuIconRef.current
+    icon.classList.toggle('rotate')
+  }
+
+  const toggleDownloadSection = () => {
+    const section = downloadSectionRef.current
+    section.classList.toggle('closed')
+    const icon = downloadSectionMenuIconRef.current
     icon.classList.toggle('rotate')
   }
 
@@ -74,13 +84,27 @@ const App = () => {
               <text className="modifyLinkButton">Modify</text>
             </div>
             <div className="modifyLink">
-              <div>
+              <div className="removeNodeTitle">
                 <img className="plusIcon" src={removeNode} />
                 <text className="uploadText">Remove node</text>
               </div>
               <text className="nodeText">Node:</text>
               <input className="nodeInput" placeholder="1" />
               <text className="removeNodeButton">Remove</text>
+            </div>
+          </div>
+          <div className="sectionToggle" onClick={toggleDownloadSection}>
+            <text className="sectionTitle">Download</text>
+            <img ref={downloadSectionMenuIconRef} className="menuIcon" src={downMenu} />
+          </div>
+          <div ref={downloadSectionRef} className="fileSection">
+            <div className="uploadGr">
+              <img className="uploadIcon" src={csvFile} />
+              <text className="uploadText">Download CSV file</text>
+            </div>
+            <div className="addArff">
+              <img className="plusIcon" src={outputFile} />
+              <text className="uploadText">Download Output file</text>
             </div>
           </div>
         </div>

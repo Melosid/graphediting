@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import uploadIcon from './icons/upload-thick.svg'
-import downloadIcon from './icons/download-thick.svg'
 import plusSquare from './icons/plusSquare.svg'
 import downMenu from './icons/downMenu.svg'
 import addNode from './icons/addNode.svg'
@@ -11,6 +10,7 @@ import modify from './icons/modify.svg'
 import removeNode from './icons/removeNode.svg'
 import csvFile from './icons/csvFile.svg'
 import outputFile from './icons/outputFile.svg'
+import { ForceGraph } from './components/forceGraph'
 
 const App = () => {
   const fileSectionRef = useRef()
@@ -41,9 +41,17 @@ const App = () => {
     icon.classList.toggle('rotate')
   }
 
+  const nodeHoverTooltip = React.useCallback((node) => {
+    return `<div>     
+      <b>${node.name}</b>
+    </div>`;
+  }, []);
+
   return (
     <div className="app">
-      <div className="graph"></div>
+      <div className="graph">
+        <ForceGraph nodeHoverTooltip={nodeHoverTooltip} />
+      </div>
       <div className="options">
         <text className="header">Graph Editing</text>
         <text className="description">Add a graph to edit and visualize</text>

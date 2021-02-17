@@ -38,7 +38,7 @@ export const menuFactory = (x, y, menuItems, data, svgId) => {
         });
 }
 
-export const createContextMenu = (d, menuItems, width, height, svgId) => {
-    menuFactory(d3.event.pageX - width / 2, d3.event.pageY - height / 1.5, menuItems, d, svgId);
-    d3.event.preventDefault();
+export const createContextMenu = (d, event, menuItems, width, height, svgId) => {
+    menuFactory(event.pageX - width / 2, event.pageY - height / 1.5, menuItems, d, svgId);
+    event.preventDefault();
 }

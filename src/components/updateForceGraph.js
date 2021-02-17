@@ -1,9 +1,14 @@
-export function update({ nodes, links }, simulation, node, link, color) {
+export function update({ nodes, links }, simulation, node, link, color, svg) {
     // Make a shallow copy to protect against mutation, while
     // recycling old nodes to preserve position and velocity.
     const old = new Map(node.data().map((d) => [d.id, d]));
+    console.log('old', old);
+    console.log('svg', svg);
     nodes = nodes.map((d) => Object.assign(old.get(d.id) || {}, d));
     links = links.map((d) => Object.assign({}, d));
+
+    console.log('updated nodes', nodes);
+    console.log('updated links', links)
 
     node = node
         .data(nodes, (d) => d.id)
@@ -27,14 +32,16 @@ export function update({ nodes, links }, simulation, node, link, color) {
 
         // update node positions
         node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-
-        // // update label positions
-        // label
-        //   .attr("x", (d) => {
-        //     return d.x;
-        //   })
-        //   .attr("y", (d) => {
-        //     return d.y;
-        //   });
     });
+    return {
+        destroy: () => {
+            simulation.stop();
+        },
+        nodes: () => {
+            return svg.node();
+        },
+        node: node,
+        link: link,
+        simulation: simulation
+    };
 }

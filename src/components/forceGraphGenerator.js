@@ -117,6 +117,7 @@ export function runForceGraph(container, nodeHoverTooltip, graph, simulation, no
         nodes: () => {
             return svg.node();
         },
+        svg: svg,
         node: node,
         link: link,
         simulation: simulation

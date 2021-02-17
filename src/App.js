@@ -55,6 +55,11 @@ const App = () => {
     setGraph(graph2)
   }
 
+  const replaceGraph1 = () => {
+    console.log('Changed graph');
+    setGraph(graph1)
+  }
+
   return (
     <div className="app">
       <div className="graph">
@@ -73,7 +78,7 @@ const App = () => {
               <img className="uploadIcon" src={uploadIcon} />
               <span className="uploadspan">Upload a .gr graph file</span>
             </div>
-            <div className="addArff">
+            <div className="addArff" onClick={replaceGraph1}>
               <img className="plusIcon" src={plusSquare} />
               <span className="uploadspan">Add .arff file to graph</span>
             </div>

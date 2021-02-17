@@ -4,7 +4,8 @@ import { createContextMenu } from "./utils";
 import styles from "./forceGraph.module.css";
 import { graph1, graph2 } from "../data/data2";
 
-export function runForceGraph(container, nodeHoverTooltip) {
+
+export function runForceGraph(container, nodeHoverTooltip, graph, simulation, node, link, color, svg) {
     const menuItems = [
         {
             title: "First action",
@@ -26,9 +27,9 @@ export function runForceGraph(container, nodeHoverTooltip) {
     const height = containerRect.height;
     const width = containerRect.width;
 
-    const color = () => {
-        return "#9D00A0";
-    };
+    // const color = () => {
+    //     return "#9D00A0";
+    // };
 
     // const icon = (d) => {
     //   return d.gender === "male" ? "\uf222" : "\uf221";
@@ -86,17 +87,17 @@ export function runForceGraph(container, nodeHoverTooltip) {
     //   div.transition().duration(200).style("opacity", 0);
     // };
 
-    var simulation = d3
-        .forceSimulation(graph1.nodes)
+    simulation = d3
+        .forceSimulation(graph.nodes)
         .force(
             "link",
-            d3.forceLink(graph1.links).id((d) => d.id)
+            d3.forceLink(graph.links).id((d) => d.id)
         )
         .force("charge", d3.forceManyBody().strength(-150))
         .force("x", d3.forceX())
         .force("y", d3.forceY());
 
-    const svg = d3
+    svg = d3
         .select(container)
         .append("svg")
         .attr("id", "graphSvg")
@@ -107,23 +108,21 @@ export function runForceGraph(container, nodeHoverTooltip) {
             })
         );
 
-    var link = svg
+    link = svg
         .append("g")
         .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6)
         .selectAll("line")
-        .data(graph1.links)
+        .data(graph.links)
         .join("line")
         .attr("stroke-width", (d) => Math.sqrt(d.value));
 
-    // const link2 = svg.selectAll("line").data(links2).enter();
-
-    var node = svg
+    node = svg
         .append("g")
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
         .selectAll("circle")
-        .data(graph1.nodes)
+        .data(graph.nodes)
         .join("circle")
         .on("contextmenu", (d) => {
             createContextMenu(d, menuItems, width, height, "#graphSvg");
@@ -134,11 +133,51 @@ export function runForceGraph(container, nodeHoverTooltip) {
         .on("click", (d) => console.log("Node clicked", d));
 
     // setTimeout(() => {
-    //   update(graph2);
+    //     // update(graph2);
+    //     update(graph2, simulation, node, link, color)
     // }, 2000);
-    const myFunction = () => console.log("do something");
-    console.log("kontainer", container);
-    // container.addEventListener("click", update(graph2));
+
+    // function update({ nodes, links }, simulation, node, link, color) {
+    //     // Make a shallow copy to protect against mutation, while
+    //     // recycling old nodes to preserve position and velocity.
+    //     const old = new Map(node.data().map((d) => [d.id, d]));
+    //     nodes = nodes.map((d) => Object.assign(old.get(d.id) || {}, d));
+    //     links = links.map((d) => Object.assign({}, d));
+
+    //     node = node
+    //         .data(nodes, (d) => d.id)
+    //         .join((enter) =>
+    //             enter.append("circle").attr("r", 12).attr("fill", color)
+    //         );
+
+    //     link = link.data(links, (d) => [d.source, d.target]).join("line");
+
+    //     simulation.nodes(nodes);
+    //     simulation.force("link").links(links);
+    //     simulation.alpha(1).restart();
+
+    //     simulation.on("tick", () => {
+    //         //update link positions
+    //         link
+    //             .attr("x1", (d) => d.source.x)
+    //             .attr("y1", (d) => d.source.y)
+    //             .attr("x2", (d) => d.target.x)
+    //             .attr("y2", (d) => d.target.y);
+
+    //         // update node positions
+    //         node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+    //         // // update label positions
+    //         // label
+    //         //   .attr("x", (d) => {
+    //         //     return d.x;
+    //         //   })
+    //         //   .attr("y", (d) => {
+    //         //     return d.y;
+    //         //   });
+    //     });
+    // }
+
 
     function update({ nodes, links }) {
         // Make a shallow copy to protect against mutation, while
@@ -214,5 +253,8 @@ export function runForceGraph(container, nodeHoverTooltip) {
         nodes: () => {
             return svg.node();
         },
+        node: node,
+        link: link,
+        simulation: simulation
     };
 }

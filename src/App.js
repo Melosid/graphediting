@@ -11,6 +11,7 @@ import removeNode from './icons/removeNode.svg'
 import csvFile from './icons/csvFile.svg'
 import outputFile from './icons/outputFile.svg'
 import { ForceGraph } from './components/forceGraph'
+import { graph1, graph2 } from "./data/data2";
 
 const App = () => {
   const fileSectionRef = useRef()
@@ -47,72 +48,79 @@ const App = () => {
     </div>`;
   }, []);
 
+  const [graph, setGraph] = useState(graph1)
+
+  const replaceGraph = () => {
+    console.log('Changed graph');
+    setGraph(graph2)
+  }
+
   return (
     <div className="app">
       <div className="graph">
-        <ForceGraph nodeHoverTooltip={nodeHoverTooltip} />
+        <ForceGraph nodeHoverTooltip={nodeHoverTooltip} graph={graph} />
       </div>
       <div className="options">
-        <text className="header">Graph Editing</text>
-        <text className="description">Add a graph to edit and visualize</text>
+        <span className="header">Graph Editing</span>
+        <span className="description">Add a graph to edit and visualize</span>
         <div className="sections">
           <div className="sectionToggle" onClick={toggleFileSection}>
-            <text className="sectionTitle">File options</text>
+            <span className="sectionTitle">File options</span>
             <img ref={fileSectionMenuIconRef} className="menuIcon" src={downMenu} />
           </div>
           <div ref={fileSectionRef} className="fileSection">
-            <div className="uploadGr">
+            <div className="uploadGr" onClick={replaceGraph}>
               <img className="uploadIcon" src={uploadIcon} />
-              <text className="uploadText">Upload a .gr graph file</text>
+              <span className="uploadspan">Upload a .gr graph file</span>
             </div>
             <div className="addArff">
               <img className="plusIcon" src={plusSquare} />
-              <text className="uploadText">Add .arff file to graph</text>
+              <span className="uploadspan">Add .arff file to graph</span>
             </div>
           </div>
           <div className="sectionToggle" onClick={toggleGraphSection}>
-            <text className="sectionTitle">Graph options</text>
+            <span className="sectionTitle">Graph options</span>
             <img ref={graphSectionMenuIconRef} className="menuIcon" src={downMenu} />
           </div>
           <div ref={graphSectionRef} className="fileSection">
             <div className="addArff">
               <img className="plusIcon" src={addNode} />
-              <text className="uploadText">Add node</text>
+              <span className="uploadspan">Add node</span>
             </div>
             <div className="modifyLink">
               <div>
                 <img className="plusIcon" src={links} />
-                <text className="uploadText">Modify links</text>
+                <span className="uploadspan">Modify links</span>
               </div>
-              <text className="nodeText">Start:</text>
+              <span className="nodespan">Start:</span>
               <input className="nodeInput" placeholder="1" />
               <img className="modifyIcon" src={modify} />
-              <text className="nodeText2">End:</text>
+              <span className="nodespan2">End:</span>
               <input className="nodeInput" placeholder="2" />
-              <text className="modifyLinkButton">Modify</text>
+              <span className="modifyLinkButton">Modify</span>
             </div>
             <div className="modifyLink">
               <div className="removeNodeTitle">
                 <img className="plusIcon" src={removeNode} />
-                <text className="uploadText">Remove node</text>
+                <span className="uploadspan">Remove node</span>
               </div>
-              <text className="nodeText">Node:</text>
+              <span className="nodespan">Node:</span>
               <input className="nodeInput" placeholder="1" />
-              <text className="removeNodeButton">Remove</text>
+              <span className="removeNodeButton">Remove</span>
             </div>
           </div>
           <div className="sectionToggle" onClick={toggleDownloadSection}>
-            <text className="sectionTitle">Download</text>
+            <span className="sectionTitle">Download</span>
             <img ref={downloadSectionMenuIconRef} className="menuIcon" src={downMenu} />
           </div>
           <div ref={downloadSectionRef} className="fileSection">
             <div className="uploadGr">
               <img className="uploadIcon" src={csvFile} />
-              <text className="uploadText">Download CSV file</text>
+              <span className="uploadspan">Download CSV file</span>
             </div>
             <div className="addArff">
               <img className="plusIcon" src={outputFile} />
-              <text className="uploadText">Download Output file</text>
+              <span className="uploadspan">Download Output file</span>
             </div>
           </div>
         </div>

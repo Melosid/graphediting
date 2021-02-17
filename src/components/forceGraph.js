@@ -12,13 +12,13 @@ export function ForceGraph({ nodeHoverTooltip, graph }) {
     const color = () => {
         return "#9D00A0";
     };
-    const [renderCount, setRenderCount] = useState(0)
+    const [firstRender, setFirstRender] = useState(true)
 
 
     useEffect(() => {
         let destroyFn;
         console.log('Grafi', graph);
-        if (containerRef.current && renderCount === 0) {
+        if (containerRef.current && firstRender) {
             console.log('From inside');
             const all = runForceGraph(containerRef.current, nodeHoverTooltip, graph, simulation, node, link, color, svg);
             destroyFn = all.destroy;
@@ -27,11 +27,11 @@ export function ForceGraph({ nodeHoverTooltip, graph }) {
             setNode(all.node)
             setLink(all.link)
             setSimulation(all.simulation)
-            setRenderCount(1)
+            setFirstRender(false)
         } else {
             update(graph, simulation, node, link, color)
         }
-        // return destroyFn;
+        return destroyFn;
     }, [graph]);
 
     return <div ref={containerRef} className={styles.container} />;

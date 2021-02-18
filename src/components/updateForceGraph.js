@@ -1,4 +1,4 @@
-export function update({ nodes, links }, simulation, node, link, color, svg) {
+export function update({ nodes, links }, simulation, node, link, label, color, svg) {
     // Make a shallow copy to protect against mutation, while
     // recycling old nodes to preserve position and velocity.
     const old = new Map(node.data().map((d) => [d.id, d]));
@@ -18,6 +18,14 @@ export function update({ nodes, links }, simulation, node, link, color, svg) {
 
     link = link.data(links, (d) => [d.source, d.target]).join("line");
 
+    label = label.data(nodes, (d) => d.id)
+        .join((enter) =>
+            enter.append("text")
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'central')
+                .text(d => { return d.id; }),
+        );
+
     simulation.nodes(nodes);
     simulation.force("link").links(links);
     simulation.alpha(1).restart();
@@ -32,6 +40,11 @@ export function update({ nodes, links }, simulation, node, link, color, svg) {
 
         // update node positions
         node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+        // update label positions
+        label
+            .attr("x", d => { return d.x; })
+            .attr("y", d => { return d.y; })
     });
     return {
         destroy: () => {
@@ -42,6 +55,7 @@ export function update({ nodes, links }, simulation, node, link, color, svg) {
         },
         node: node,
         link: link,
+        label: label,
         simulation: simulation
     };
 }

@@ -1,28 +1,7 @@
 import * as d3 from "d3";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { createContextMenu } from "./utils";
-import styles from "./forceGraph.module.css";
-import { graph1, graph2 } from "../data/data2";
 
-
-export function runForceGraph(container, nodeHoverTooltip, graph, simulation, node, link, color, svg) {
-    const menuItems = [
-        {
-            title: "First action",
-            action: (d) => {
-                // TODO: add any action you want to perform
-                console.log(d);
-            },
-        },
-        {
-            title: "Second action",
-            action: (d) => {
-                // TODO: add any action you want to perform
-                console.log(d);
-            },
-        },
-    ];
-
+export function runForceGraph(container, nodeHoverTooltip, graph, simulation, node, link, label, color, svg) {
     const containerRect = container.getBoundingClientRect();
     const height = containerRect.height;
     const width = containerRect.width;
@@ -90,13 +69,21 @@ export function runForceGraph(container, nodeHoverTooltip, graph, simulation, no
         .selectAll("circle")
         .data(graph.nodes)
         .join("circle")
-        .on("contextmenu", (d) => {
-            createContextMenu(d, menuItems, width, height, "#graphSvg");
-        })
         .attr("r", 12)
         .attr("fill", color)
         .call(drag(simulation))
         .on("click", (d) => console.log("Node clicked", d));
+
+    label = svg.append("g")
+        .attr("class", "labels")
+        .selectAll("text")
+        .data(graph.nodes)
+        .enter()
+        .append("text")
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'central')
+        .text(d => { return d.id; })
+        .call(drag(simulation));
 
     simulation.on("tick", () => {
         //update link positions
@@ -108,6 +95,11 @@ export function runForceGraph(container, nodeHoverTooltip, graph, simulation, no
 
         // update node positions
         node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+        // update label positions
+        label
+            .attr("x", d => { return d.x; })
+            .attr("y", d => { return d.y; })
     });
 
     return {
@@ -120,6 +112,7 @@ export function runForceGraph(container, nodeHoverTooltip, graph, simulation, no
         svg: svg,
         node: node,
         link: link,
+        label: label,
         simulation: simulation
     };
 }

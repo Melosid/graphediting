@@ -8,11 +8,12 @@ import addNode from './icons/addNode.svg'
 import links from './icons/links.svg'
 import modify from './icons/modify.svg'
 import removeNode from './icons/removeNode.svg'
-import csvFile from './icons/csvFile.svg'
-import outputFile from './icons/outputFile.svg'
+import csvDoc from './icons/csvFile.svg'
+import outputDoc from './icons/outputFile.svg'
 import { ForceGraph } from './components/forceGraph'
 import { graph1, graph2 } from "./data/data2";
 import { initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
+import { downloadFile } from './components/downloadFile'
 
 const App = () => {
   const fileSectionRef = useRef()
@@ -21,13 +22,6 @@ const App = () => {
   const graphSectionMenuIconRef = useRef()
   const downloadSectionRef = useRef()
   const downloadSectionMenuIconRef = useRef()
-
-  const [graph, setGraph] = useState(graph1)
-  const [numberOfNodes, setNumberOfNodes] = useState()
-  const [initMatrix, setInitMatrix] = useState()
-  const [csvFile, setCsvFile] = useState()
-  const [finMatrix, setFinMatrix] = useState()
-  const [diffMatrix, setDiffMatrix] = useState()
 
   const reader = new FileReader();
 
@@ -60,18 +54,35 @@ const App = () => {
     };
   };
 
+  const handleCsvDownload = () => {
+    downloadFile("Graph", csvFile, "toCSV.csv");
+  };
+
+  const handleOutFileDownload = () => {
+    downloadFile("Graph", outputFile, "OutputFormat.txt");
+  };
+
+  const [graph, setGraph] = useState(graph1)
+  const [numberOfNodes, setNumberOfNodes] = useState()
+  const [initMatrix, setInitMatrix] = useState()
+  const [csvFile, setCsvFile] = useState()
+  const [finMatrix, setFinMatrix] = useState()
+  const [diffMatrix, setDiffMatrix] = useState()
+  const [outputFile, setOutputFile] = useState()
+
   useEffect(() => {
     console.log("Initial Matrix", initMatrix);
     console.log("CSV", csvFile);
     console.log("Final Matrix", finMatrix);
     let diffMat = differenceMatrix(initMatrix, finMatrix, numberOfNodes)
-    setDiffMatrix(diffMat)
+    setDiffMatrix(diffMat.differenceMatrix)
+    setOutputFile(diffMat.outFile)
   }, [finMatrix])
 
   useEffect(() => {
     if (diffMatrix) {
-      console.log("Difference Matrix", diffMatrix.differenceMatrix);
-      console.log("Out file", diffMatrix.outFile);
+      console.log("Difference Matrix", diffMatrix);
+      console.log("Out file", outputFile);
     }
   }, [diffMatrix])
 
@@ -184,12 +195,12 @@ const App = () => {
             <img ref={downloadSectionMenuIconRef} className="menuIcon" src={downMenu} />
           </div>
           <div ref={downloadSectionRef} className="fileSection">
-            <div className="uploadGr">
-              <img className="uploadIcon" src={csvFile} />
+            <div className="uploadGr" onClick={handleCsvDownload}>
+              <img className="uploadIcon" src={csvDoc} />
               <span className="uploadspan">Download CSV file</span>
             </div>
-            <div className="addArff">
-              <img className="plusIcon" src={outputFile} />
+            <div className="addArff" onClick={handleOutFileDownload}>
+              <img className="plusIcon" src={outputDoc} />
               <span className="uploadspan">Download Output file</span>
             </div>
           </div>

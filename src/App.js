@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import uploadIcon from './icons/upload-thick.svg'
@@ -12,7 +12,7 @@ import csvFile from './icons/csvFile.svg'
 import outputFile from './icons/outputFile.svg'
 import { ForceGraph } from './components/forceGraph'
 import { graph1, graph2 } from "./data/data2";
-import { graphGenerator } from './components/graphGenerator'
+import { initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
 
 const App = () => {
   const fileSectionRef = useRef()
@@ -23,6 +23,11 @@ const App = () => {
   const downloadSectionMenuIconRef = useRef()
 
   const [graph, setGraph] = useState(graph1)
+  const [numberOfNodes, setNumberOfNodes] = useState()
+  const [initMatrix, setInitMatrix] = useState()
+  const [csvFile, setCsvFile] = useState()
+  const [finMatrix, setFinMatrix] = useState()
+  const [diffMatrix, setDiffMatrix] = useState()
 
   const reader = new FileReader();
 
@@ -34,8 +39,10 @@ const App = () => {
     reader.readAsText(ev.target.files[0], "utf-8");
     reader.onload = (event) => {
       setGrGraphFile(event.target.result);
-      console.log(event.target.result);
-      graphGenerator(event.target.result)
+      let initialMat = initialMatrix(event.target.result)
+      setNumberOfNodes(initialMat.numberOfNodes)
+      setInitMatrix(initialMat.initialMatrix)
+      setCsvFile(initialMat.csv)
     };
   };
 
@@ -48,9 +55,25 @@ const App = () => {
     reader.readAsText(ev.target.files[0], "utf-8");
     reader.onload = (event) => {
       setArffGraphFile(event.target.result);
-      console.log(event.target.result);
+      let finMat = finalMatrix(event.target.result, numberOfNodes)
+      setFinMatrix(finMat.finalMatrix)
     };
   };
+
+  useEffect(() => {
+    console.log("Initial Matrix", initMatrix);
+    console.log("CSV", csvFile);
+    console.log("Final Matrix", finMatrix);
+    let diffMat = differenceMatrix(initMatrix, finMatrix, numberOfNodes)
+    setDiffMatrix(diffMat)
+  }, [finMatrix])
+
+  useEffect(() => {
+    if (diffMatrix) {
+      console.log("Difference Matrix", diffMatrix.differenceMatrix);
+      console.log("Out file", diffMatrix.outFile);
+    }
+  }, [diffMatrix])
 
   const toggleFileSection = () => {
     const section = fileSectionRef.current

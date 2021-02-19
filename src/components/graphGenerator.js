@@ -10,6 +10,5 @@ export const graphGenerator = (grFile) => {
         }
     });
     console.log("Number of nodes", numberOfNodes);
-
 }
 

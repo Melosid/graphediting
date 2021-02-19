@@ -12,6 +12,7 @@ import csvFile from './icons/csvFile.svg'
 import outputFile from './icons/outputFile.svg'
 import { ForceGraph } from './components/forceGraph'
 import { graph1, graph2 } from "./data/data2";
+import { graphGenerator } from './components/graphGenerator'
 
 const App = () => {
   const fileSectionRef = useRef()
@@ -20,6 +21,36 @@ const App = () => {
   const graphSectionMenuIconRef = useRef()
   const downloadSectionRef = useRef()
   const downloadSectionMenuIconRef = useRef()
+
+  const [graph, setGraph] = useState(graph1)
+
+  const reader = new FileReader();
+
+  const [grGraphFile, setGrGraphFile] = useState()
+  const uploadGrGraphFile = () => {
+    document.getElementById("grUpload").click()
+  }
+  const handleGrFileUpload = (ev) => {
+    reader.readAsText(ev.target.files[0], "utf-8");
+    reader.onload = (event) => {
+      setGrGraphFile(event.target.result);
+      console.log(event.target.result);
+      graphGenerator(event.target.result)
+    };
+  };
+
+
+  const [arffGraphFile, setArffGraphFile] = useState()
+  const uploadArffGraphFile = () => {
+    document.getElementById("arffUpload").click()
+  }
+  const handleArffFileUpload = (ev) => {
+    reader.readAsText(ev.target.files[0], "utf-8");
+    reader.onload = (event) => {
+      setArffGraphFile(event.target.result);
+      console.log(event.target.result);
+    };
+  };
 
   const toggleFileSection = () => {
     const section = fileSectionRef.current
@@ -48,8 +79,6 @@ const App = () => {
     </div>`;
   }, []);
 
-  const [graph, setGraph] = useState(graph1)
-
   const replaceGraph = () => {
     console.log('Changed graph');
     setGraph(graph2)
@@ -72,15 +101,28 @@ const App = () => {
           <div className="sectionToggle" onClick={toggleFileSection}>
             <span className="sectionTitle">File options</span>
             <img ref={fileSectionMenuIconRef} className="menuIcon" src={downMenu} />
+
           </div>
           <div ref={fileSectionRef} className="fileSection">
-            <div className="uploadGr" onClick={replaceGraph}>
+            <div className="uploadGr" onClick={uploadGrGraphFile}>
               <img className="uploadIcon" src={uploadIcon} />
               <span className="uploadspan">Upload a .gr graph file</span>
+              <input
+                id="grUpload"
+                type="file"
+                onChange={handleGrFileUpload}
+                className="noDisplay"
+              />
             </div>
-            <div className="addArff" onClick={replaceGraph1}>
+            <div className="addArff" onClick={uploadArffGraphFile}>
               <img className="plusIcon" src={plusSquare} />
               <span className="uploadspan">Add .arff file to graph</span>
+              <input
+                id="arffUpload"
+                type="file"
+                onChange={handleArffFileUpload}
+                className="noDisplay"
+              />
             </div>
           </div>
           <div className="sectionToggle" onClick={toggleGraphSection}>

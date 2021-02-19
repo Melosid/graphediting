@@ -157,3 +157,9 @@
   border: 3px solid orangered;
   background-color:#aaaaaa;
 }
+.noDisplay {
+  display: none;
+}
+.green {
+  background-color: green;
+}

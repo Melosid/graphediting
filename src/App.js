@@ -13,6 +13,7 @@ import outputDoc from './icons/outputFile.svg'
 import { ForceGraph } from './components/forceGraph'
 import { graph1, graph2 } from "./data/data2";
 import { initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
+import { graphGenerator } from './components/graphGenerator'
 import { downloadFile } from './components/downloadFile'
 
 const App = () => {
@@ -80,9 +81,11 @@ const App = () => {
   }, [finMatrix])
 
   useEffect(() => {
-    if (diffMatrix) {
+    if (initMatrix && diffMatrix) {
       console.log("Difference Matrix", diffMatrix);
       console.log("Out file", outputFile);
+      let graph = graphGenerator(initMatrix)
+      setGraph(graph)
     }
   }, [diffMatrix])
 
@@ -112,16 +115,6 @@ const App = () => {
       <b>${node.name}</b>
     </div>`;
   }, []);
-
-  const replaceGraph = () => {
-    console.log('Changed graph');
-    setGraph(graph2)
-  }
-
-  const replaceGraph1 = () => {
-    console.log('Changed graph');
-    setGraph(graph1)
-  }
 
   return (
     <div className="app">

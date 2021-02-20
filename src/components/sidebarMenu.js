@@ -56,7 +56,7 @@ export const SidebarMenu = (props) => {
     return (<div className="options">
         <span className="header">Graph Editing</span>
         <span className="description">Add a graph to edit and visualize</span>
-        <div className="reset">
+        <div className="reset" onClick={props.reset}>
             <img className="resetIcon" src={redo} />
             <span className="resetText">Reset options</span>
         </div>
@@ -92,7 +92,7 @@ export const SidebarMenu = (props) => {
                 <img ref={graphSectionMenuIconRef} className="menuIcon" src={downMenu} />
             </div>
             <div ref={graphSectionRef} className="fileSection">
-                <div className="addArff">
+                <div className="addArff" onClick={props.setModified}>
                     <img className="plusIcon" src={addNode} />
                     <span className="uploadspan">Add node</span>
                 </div>
@@ -106,7 +106,7 @@ export const SidebarMenu = (props) => {
                     <img className="modifyIcon" src={modify} />
                     <span className="nodespan2">End:</span>
                     <input className="nodeInput" placeholder="2" />
-                    <span className="modifyLinkButton">Modify</span>
+                    <span className="modifyLinkButton" onClick={props.setModified}>Modify</span>
                 </div>
                 <div className="modifyLink">
                     <div className="removeNodeTitle">
@@ -115,7 +115,7 @@ export const SidebarMenu = (props) => {
                     </div>
                     <span className="nodespan">Node:</span>
                     <input className="nodeInput" placeholder="1" />
-                    <span className="removeNodeButton">Remove</span>
+                    <span className="removeNodeButton" onClick={props.setModified}>Remove</span>
                 </div>
             </div>
             <div className="sectionToggle" onClick={toggleDownloadSection}>

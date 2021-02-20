@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import { SidebarMenu } from './components/sidebarMenu'
 import { ForceGraph } from './components/d3Components/forceGraph'
-import { graph1 } from "./data/data2";
+import { firstMatrix } from "./data/data";
 import { initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
 import { graphGenerator } from './components/d3Components/graphGenerator'
 import { downloadFile } from './components/downloadFile'
@@ -53,13 +53,14 @@ const App = () => {
     }
   };
 
-  const [graph, setGraph] = useState(graph1)
+  const [graph, setGraph] = useState(graphGenerator(firstMatrix))
   const [numberOfNodes, setNumberOfNodes] = useState()
   const [initMatrix, setInitMatrix] = useState()
   const [csvFile, setCsvFile] = useState()
   const [finMatrix, setFinMatrix] = useState()
   const [diffMatrix, setDiffMatrix] = useState()
   const [outputFile, setOutputFile] = useState()
+  const [modified, setModified] = useState()
 
   useEffect(() => {
     console.log("Initial Matrix", initMatrix);
@@ -77,6 +78,21 @@ const App = () => {
     }
   }, [diffMatrix])
 
+  useEffect(() => {
+    console.log("Modified", modified);
+  }, [modified])
+
+  const reset = () => {
+    // setNumberOfNodes(null)
+    // setGrGraphFile(null)
+    // setArffGraphFile(null)
+    // setCsvFile(null)
+    // setOutputFile(null)
+    // console.log("demograph", demoGraph);
+
+    setGraph(graphGenerator(firstMatrix))
+  }
+
   return (
     <div className="app">
       <div className="graph">
@@ -89,6 +105,8 @@ const App = () => {
         handleArffFileUpload={handleArffFileUpload}
         handleCsvDownload={handleCsvDownload}
         handleOutFileDownload={handleOutFileDownload}
+        setModified={() => setModified(true)}
+        reset={() => reset()}
       />
     </div>
   );

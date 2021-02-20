@@ -4,7 +4,7 @@ import { runForceGraph } from "./forceGraphGenerator";
 import { update } from "./updateForceGraph"
 import styles from "./forceGraph.module.css";
 
-export function ForceGraph({ nodeHoverTooltip, graph }) {
+export function ForceGraph({ graph }) {
     const containerRef = useRef(null)
     const [simulation, setSimulation] = useState()
     const [svg, setSvg] = useState()
@@ -46,7 +46,7 @@ export function ForceGraph({ nodeHoverTooltip, graph }) {
         console.log('Grafi', graph);
         if (containerRef.current && firstRender) {
             console.log('From inside');
-            const all = runForceGraph(containerRef.current, nodeHoverTooltip, graph, simulation, node, link, label, color, svg, drag);
+            const all = runForceGraph(containerRef.current, graph, simulation, node, link, label, color, svg, drag);
             destroyFn = all.destroy;
             setSvg(all.svg)
             setNode(all.node)

@@ -19,6 +19,8 @@ const App = () => {
       let initialMat = initialMatrix(event.target.result)
       setNumberOfNodes(initialMat.numberOfNodes)
       setInitMatrix(initialMat.initialMatrix)
+      let graph = graphGenerator(initialMat.initialMatrix)
+      setGraph(graph)
       setCsvFile(initialMat.csv)
     };
   };
@@ -30,6 +32,8 @@ const App = () => {
       setArffGraphFile(event.target.result);
       let finMat = finalMatrix(event.target.result, numberOfNodes)
       setFinMatrix(finMat.finalMatrix)
+      let graph = graphGenerator(finMat.finalMatrix)
+      setGraph(graph)
     };
   };
 
@@ -70,21 +74,13 @@ const App = () => {
     if (initMatrix && diffMatrix) {
       console.log("Difference Matrix", diffMatrix);
       console.log("Out file", outputFile);
-      let graph = graphGenerator(initMatrix)
-      setGraph(graph)
     }
   }, [diffMatrix])
-
-  const nodeHoverTooltip = React.useCallback((node) => {
-    return `<div>     
-      <b>${node.name}</b>
-    </div>`;
-  }, []);
 
   return (
     <div className="app">
       <div className="graph">
-        <ForceGraph nodeHoverTooltip={nodeHoverTooltip} graph={graph} />
+        <ForceGraph graph={graph} />
       </div>
       <SidebarMenu
         grGraphFile={grGraphFile}

@@ -1,4 +1,4 @@
-export function update({ nodes, links }, simulation, node, link, label, color, svg) {
+export function update({ nodes, links }, simulation, node, link, label, color, svg, drag) {
     // Make a shallow copy to protect against mutation, while
     // recycling old nodes to preserve position and velocity.
     const old = new Map(node.data().map((d) => [d.id, d]));
@@ -14,7 +14,7 @@ export function update({ nodes, links }, simulation, node, link, label, color, s
         .data(nodes, (d) => d.id)
         .join((enter) =>
             enter.append("circle").attr("r", 12).attr("fill", color)
-        );
+        ).call(drag(simulation))
 
     link = link.data(links, (d) => [d.source, d.target]).join("line");
 
@@ -24,7 +24,7 @@ export function update({ nodes, links }, simulation, node, link, label, color, s
                 .attr('text-anchor', 'middle')
                 .attr('dominant-baseline', 'central')
                 .text(d => { return d.id; }),
-        );
+        ).call(drag(simulation))
 
     simulation.nodes(nodes);
     simulation.force("link").links(links);

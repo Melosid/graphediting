@@ -1,36 +1,36 @@
 import * as d3 from "d3";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-export function runForceGraph(container, nodeHoverTooltip, graph, simulation, node, link, label, color, svg) {
+export function runForceGraph(container, nodeHoverTooltip, graph, simulation, node, link, label, color, svg, drag) {
     const containerRect = container.getBoundingClientRect();
     const height = containerRect.height;
     const width = containerRect.width;
 
 
-    const drag = (simulation) => {
-        const dragstarted = (event, d) => {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        };
+    // const drag = (simulation) => {
+    //     const dragstarted = (event, d) => {
+    //         if (!event.active) simulation.alphaTarget(0.3).restart();
+    //         d.fx = d.x;
+    //         d.fy = d.y;
+    //     };
 
-        const dragged = (event, d) => {
-            d.fx = event.x;
-            d.fy = event.y;
-        };
+    //     const dragged = (event, d) => {
+    //         d.fx = event.x;
+    //         d.fy = event.y;
+    //     };
 
-        const dragended = (event, d) => {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        };
+    //     const dragended = (event, d) => {
+    //         if (!event.active) simulation.alphaTarget(0);
+    //         d.fx = null;
+    //         d.fy = null;
+    //     };
 
-        return d3
-            .drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended);
-    };
+    //     return d3
+    //         .drag()
+    //         .on("start", dragstarted)
+    //         .on("drag", dragged)
+    //         .on("end", dragended);
+    // };
 
     simulation = d3
         .forceSimulation(graph.nodes)

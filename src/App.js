@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import { SidebarMenu } from './components/sidebarMenu'
 import { ForceGraph } from './components/d3Components/forceGraph'
-import { graph1, graph2 } from "./data/data2";
+import { graph1 } from "./data/data2";
 import { initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
 import { graphGenerator } from './components/d3Components/graphGenerator'
 import { downloadFile } from './components/downloadFile'

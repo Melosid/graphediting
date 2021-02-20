@@ -20,6 +20,27 @@
 .description {
   margin-bottom: 20px;
 }
+.reset {
+  position: absolute;
+  right: 5px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  background-color: lightblue;
+}
+.reset:hover {
+  background-color: lightskyblue;
+  cursor: pointer;
+}
+.resetIcon {
+  width: 20px;
+  height: 20px;
+}
+.resetText {
+  font-size: 12px;
+}
 .sections{
   width: 100%;
   display: flex;
@@ -161,5 +182,8 @@
   display: none;
 }
 .green {
-  background-color: green;
+  background-color: lightgreen;
+}
+.green:hover {
+  background-color: greenyellow;
 }

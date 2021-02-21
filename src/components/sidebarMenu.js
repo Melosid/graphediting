@@ -24,8 +24,10 @@ export const SidebarMenu = (props) => {
     }
 
     const uploadArffGraphFile = () => {
-        if (props.grGraphFile) {
+        if (props.grGraphFile && !props.modified) {
             document.getElementById("arffUpload").click()
+        } else if (props.modified) {
+            window.alert('Can not upload an arff file because the graph has been manually modified')
         }
         else {
             window.alert('No .gr graph file found. Please upload a graph before proceeding.')
@@ -92,7 +94,7 @@ export const SidebarMenu = (props) => {
                 <img ref={graphSectionMenuIconRef} className="menuIcon" src={downMenu} />
             </div>
             <div ref={graphSectionRef} className="fileSection">
-                <div className="addArff" onClick={props.setModified}>
+                <div className="addArff" onClick={props.addNode}>
                     <img className="plusIcon" src={addNode} />
                     <span className="uploadspan">Add node</span>
                 </div>

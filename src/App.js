@@ -17,12 +17,14 @@ const App = () => {
     reader.onload = (event) => {
       setGrGraphFile(event.target.result);
       let initialMat = initialMatrix(event.target.result)
-      setNumberOfNodes(initialMat.numberOfNodes)
+      setNumberOfNodes(parseInt(initialMat.numberOfNodes))
       setInitMatrix(initialMat.initialMatrix)
       let graph = graphGenerator(initialMat.initialMatrix)
       setGraph(graph)
       setCsvFile(initialMat.csv)
     };
+    let input = document.getElementById('grUpload')
+    input.value = ''
   };
 
   const [arffGraphFile, setArffGraphFile] = useState()
@@ -35,6 +37,8 @@ const App = () => {
       let graph = graphGenerator(finMat.finalMatrix)
       setGraph(graph)
     };
+    let input = document.getElementById('arffUpload')
+    input.value = ''
   };
 
   const handleCsvDownload = () => {
@@ -54,7 +58,7 @@ const App = () => {
   };
 
   const [graph, setGraph] = useState(graphGenerator(firstMatrix))
-  const [numberOfNodes, setNumberOfNodes] = useState()
+  const [numberOfNodes, setNumberOfNodes] = useState(3)
   const [initMatrix, setInitMatrix] = useState()
   const [csvFile, setCsvFile] = useState()
   const [finMatrix, setFinMatrix] = useState()
@@ -63,12 +67,14 @@ const App = () => {
   const [modified, setModified] = useState()
 
   useEffect(() => {
-    console.log("Initial Matrix", initMatrix);
-    console.log("CSV", csvFile);
-    console.log("Final Matrix", finMatrix);
-    let diffMat = differenceMatrix(initMatrix, finMatrix, numberOfNodes)
-    setDiffMatrix(diffMat.differenceMatrix)
-    setOutputFile(diffMat.outFile)
+    if (finMatrix) {
+      console.log("Initial Matrix", initMatrix);
+      console.log("CSV", csvFile);
+      console.log("Final Matrix", finMatrix);
+      let diffMat = differenceMatrix(initMatrix, finMatrix, numberOfNodes)
+      setDiffMatrix(diffMat.differenceMatrix)
+      setOutputFile(diffMat.outFile)
+    }
   }, [finMatrix])
 
   useEffect(() => {
@@ -83,14 +89,23 @@ const App = () => {
   }, [modified])
 
   const reset = () => {
-    // setNumberOfNodes(null)
-    // setGrGraphFile(null)
-    // setArffGraphFile(null)
-    // setCsvFile(null)
-    // setOutputFile(null)
-    // console.log("demograph", demoGraph);
-
+    setGrGraphFile(null)
+    setArffGraphFile(null)
+    setCsvFile(null)
+    setOutputFile(null)
     setGraph(graphGenerator(firstMatrix))
+    setModified(false)
+    setNumberOfNodes(firstMatrix.length)
+    console.log(firstMatrix.length);
+  }
+
+  const addNode = () => {
+    setModified(true)
+    let modify = Object.assign({}, graph)
+    console.log("Modified Graph", modify.nodes);
+    modify.nodes.push({ id: numberOfNodes + 1 })
+    setNumberOfNodes(numberOfNodes + 1)
+    setGraph(modify)
   }
 
   return (
@@ -105,7 +120,9 @@ const App = () => {
         handleArffFileUpload={handleArffFileUpload}
         handleCsvDownload={handleCsvDownload}
         handleOutFileDownload={handleOutFileDownload}
+        modified={modified}
         setModified={() => setModified(true)}
+        addNode={() => addNode()}
         reset={() => reset()}
       />
     </div>

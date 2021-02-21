@@ -20,10 +20,20 @@ export const SidebarMenu = (props) => {
     const downloadSectionMenuIconRef = useRef()
     const removeNodeInput = useRef()
     const [nodeToRemove, setNodeToRemove] = useState(1)
+    const node1Ref = useRef()
+    const node2Ref = useRef()
+    const [node1, setNode1] = useState(2)
+    const [node2, setNode2] = useState(3)
 
     const handleRemoveNode = () => {
         setNodeToRemove(removeNodeInput.current.value)
         console.log("Node to remove value", removeNodeInput.current.value);
+    }
+
+    const handleModifyLink = () => {
+        console.log(node1Ref.current.value + " " + node2Ref.current.value);
+        setNode1(node1Ref.current.value)
+        setNode2(node2Ref.current.value)
     }
 
     const uploadGrGraphFile = () => {
@@ -111,11 +121,11 @@ export const SidebarMenu = (props) => {
                         <span className="uploadspan">Modify links</span>
                     </div>
                     <span className="nodespan">Start:</span>
-                    <input className="nodeInput" placeholder="1" />
+                    <input ref={node1Ref} className="nodeInput" placeholder="1" onChange={handleModifyLink} />
                     <img className="modifyIcon" src={modify} />
                     <span className="nodespan2">End:</span>
-                    <input className="nodeInput" placeholder="2" />
-                    <span className="modifyLinkButton" onClick={props.setModified}>Modify</span>
+                    <input ref={node2Ref} className="nodeInput" placeholder="2" onChange={handleModifyLink} />
+                    <span className="modifyLinkButton" onClick={() => props.modifyLink(node1, node2)}>Modify</span>
                 </div>
                 <div className="modifyLink">
                     <div className="removeNodeTitle">

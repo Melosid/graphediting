@@ -130,7 +130,53 @@ const App = () => {
     }
   }
 
-  const modifyLink = () => { }
+  const modifyLink = (node1, node2) => {
+    console.log("Modified link between nodes", node1 + " " + node2);
+    if (node1 > numberOfNodes || node2 > numberOfNodes) {
+      window.alert("One of nodes doesn't exist")
+    } else {
+      let modify = Object.assign({}, graph)
+      setModified(true)
+      let linksToCheck = [...graph.links]
+      console.log(graph.links);
+      console.log("linksToCheck", linksToCheck);
+      let linksSimple = []
+      linksToCheck.forEach((li) => {
+        linksSimple.push({ source: li.source.id ? li.source.id : li.source, target: li.target.id ? li.target.id : li.target })
+      })
+      console.log("linksSimple", linksSimple);
+      let linkExists = linksSimple.find((li) => (
+        (li.source === parseInt(node1) && li.target === parseInt(node2)) ||
+        (li.source === parseInt(node2) && li.target === parseInt(node1))
+      ))
+      let updatedLinks = [...linksSimple]
+      if (!!linkExists) {
+        console.log('Links already exists');
+        updatedLinks = linksSimple.filter((li) => !(
+          (li.source === parseInt(node1) && li.target === parseInt(node2)) ||
+          (li.source === parseInt(node2) && li.target === parseInt(node1))
+        ))
+      } else {
+        console.log('link doesn"t exist');
+        updatedLinks.push({ source: parseInt(node1), target: parseInt(node2) })
+      }
+      console.log("Updated Links", updatedLinks);
+      let nodesToCheck = [...graph.nodes]
+      let updatedNodes = []
+      nodesToCheck.forEach((no) => {
+        updatedNodes.push({ id: no.id })
+      })
+      console.log("updated Nodes", updatedNodes);
+      modify.nodes = updatedNodes
+      modify.links = updatedLinks
+      console.log("modified graph", modify);
+      setGraph(modify)
+    }
+  }
+
+  useEffect(() => {
+    console.log("graph after link modification", graph);
+  }, [graph])
 
   return (
     <div className="app">
@@ -148,6 +194,7 @@ const App = () => {
         setModified={() => setModified(true)}
         addNode={() => addNode()}
         removeNode={removeNode}
+        modifyLink={modifyLink}
         reset={() => reset()}
       />
     </div>

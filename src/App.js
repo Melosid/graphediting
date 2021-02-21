@@ -132,8 +132,17 @@ const App = () => {
 
   const modifyLink = (node1, node2) => {
     console.log("Modified link between nodes", node1 + " " + node2);
+    let currentNodes = [...graph.nodes]
+    let findNode1 = currentNodes.find((no) => no.id === parseInt(node1))
+    let findNode2 = currentNodes.find((no) => no.id === parseInt(node2))
+    console.log("findNode1", findNode1);
+    console.log("findNode2", findNode2);
     if (node1 > numberOfNodes || node2 > numberOfNodes) {
       window.alert("One of nodes doesn't exist")
+    } else if (
+      !(findNode1 && findNode2)
+    ) {
+      window.alert('One of the nodes doesn"t exist. Add the node before modifying link')
     } else {
       let modify = Object.assign({}, graph)
       setModified(true)

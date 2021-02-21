@@ -108,6 +108,30 @@ const App = () => {
     setGraph(modify)
   }
 
+  const removeNode = (node) => {
+    if (node > numberOfNodes) {
+      window.alert("Node doesn't exist")
+    } else {
+      let modify = Object.assign({}, graph)
+      setModified(true)
+      let nodesToCheck = [...graph.nodes]
+      let updatedNodes = nodesToCheck.filter((no) => (
+        no.id != parseInt(node)
+      ))
+      console.log("updated Nodes", updatedNodes);
+      let linksToCheck = [...graph.links]
+      let updatedLinks = linksToCheck.filter((li) => (
+        li.source != parseInt(node) && li.target != parseInt(node)
+      ))
+      console.log("Updated Links", updatedLinks);
+      modify.nodes = updatedNodes
+      modify.links = updatedLinks
+      setGraph(modify)
+    }
+  }
+
+  const modifyLink = () => { }
+
   return (
     <div className="app">
       <div className="graph">
@@ -123,6 +147,7 @@ const App = () => {
         modified={modified}
         setModified={() => setModified(true)}
         addNode={() => addNode()}
+        removeNode={removeNode}
         reset={() => reset()}
       />
     </div>

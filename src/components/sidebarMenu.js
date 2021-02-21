@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../App.css'
 import redo from '../icons/redoIcon.svg'
 import uploadIcon from '../icons/upload-thick.svg'
@@ -18,6 +18,13 @@ export const SidebarMenu = (props) => {
     const graphSectionMenuIconRef = useRef()
     const downloadSectionRef = useRef()
     const downloadSectionMenuIconRef = useRef()
+    const removeNodeInput = useRef()
+    const [nodeToRemove, setNodeToRemove] = useState(1)
+
+    const handleRemoveNode = () => {
+        setNodeToRemove(removeNodeInput.current.value)
+        console.log("Node to remove value", removeNodeInput.current.value);
+    }
 
     const uploadGrGraphFile = () => {
         document.getElementById("grUpload").click()
@@ -116,8 +123,8 @@ export const SidebarMenu = (props) => {
                         <span className="uploadspan">Remove node</span>
                     </div>
                     <span className="nodespan">Node:</span>
-                    <input className="nodeInput" placeholder="1" />
-                    <span className="removeNodeButton" onClick={props.setModified}>Remove</span>
+                    <input ref={removeNodeInput} className="nodeInput" placeholder="1" onChange={handleRemoveNode} />
+                    <span className="removeNodeButton" onClick={() => props.removeNode(nodeToRemove)}>Remove</span>
                 </div>
             </div>
             <div className="sectionToggle" onClick={toggleDownloadSection}>

@@ -121,7 +121,7 @@ const App = () => {
       console.log("updated Nodes", updatedNodes);
       let linksToCheck = [...graph.links]
       let updatedLinks = linksToCheck.filter((li) => (
-        li.source != parseInt(node) && li.target != parseInt(node)
+        (li.source.id ? li.source.id : li.source) != parseInt(node) && (li.target.id ? li.target.id : li.target) != parseInt(node)
       ))
       console.log("Updated Links", updatedLinks);
       modify.nodes = updatedNodes

@@ -1,3 +1,52 @@
+export const linkInitialMatrix = (file) => {
+    var textByLine = file.split("\n");
+    var numberOfNodes = 0
+    var pairsArray = []
+    textByLine.forEach((row) => {
+        var arrayOfLine = row.split(" ");
+        pairsArray.push(arrayOfLine)
+    });
+
+    pairsArray.forEach((pair) => {
+        var biggest = 0
+        var node1 = parseInt(pair[0])
+        var node2 = parseInt(pair[1])
+        if (node1 > node2) {
+            biggest = node1
+        } else {
+            biggest = node2
+        }
+        if (biggest > numberOfNodes) {
+            numberOfNodes = biggest
+        }
+    })
+    console.log("Number of nodes", numberOfNodes);
+
+    var matrix = []
+    for (let i = 0; i < numberOfNodes; i++) {
+        matrix.push([]);
+    }
+    matrix.forEach((row) => {
+        for (let i = 0; i < numberOfNodes; i++) {
+            row.push(0);
+        }
+    });
+
+    pairsArray.forEach((pair) => {
+        let from = pair[0];
+        let to = pair[1];
+        matrix[parseInt(from) - 1][parseInt(to) - 1] = 1;
+        matrix[parseInt(to) - 1][parseInt(from) - 1] = 1;
+    })
+
+    console.log("empty matrix", matrix);
+
+    return {
+        initialMatrix: matrix,
+        numberOfNodes: numberOfNodes,
+    }
+}
+
 export const initialMatrix = (grFile) => {
     var textByLine = grFile.split("\n");
     textByLine = textByLine.filter((line) => line !== "");

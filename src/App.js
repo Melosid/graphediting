@@ -4,12 +4,27 @@ import './App.css'
 import { SidebarMenu } from './components/sidebarMenu'
 import { ForceGraph } from './components/d3Components/forceGraph'
 import { firstMatrix } from "./data/data";
-import { initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
+import { linkInitialMatrix, initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
 import { graphGenerator } from './components/d3Components/graphGenerator'
 import { downloadFile } from './components/downloadFile'
 
 const App = () => {
   const reader = new FileReader();
+
+  const [graphFile, setGraphFile] = useState()
+  const handleFileUpload = (ev) => {
+    reader.readAsText(ev.target.files[0], "utf-8");
+    reader.onload = (event) => {
+      setGraphFile(event.target.result);
+      let linkMatrix = linkInitialMatrix(event.target.result)
+      setNumberOfNodes(parseInt(linkMatrix.numberOfNodes))
+      setLinkMatrix(linkMatrix.initialMatrix)
+      let graph = graphGenerator(linkMatrix.initialMatrix)
+      setGraph(graph)
+    };
+    let input = document.getElementById('fileUpload')
+    input.value = ''
+  };
 
   const [grGraphFile, setGrGraphFile] = useState()
   const handleGrFileUpload = (ev) => {
@@ -59,6 +74,7 @@ const App = () => {
 
   const [graph, setGraph] = useState(graphGenerator(firstMatrix))
   const [numberOfNodes, setNumberOfNodes] = useState(3)
+  const [linkMatrix, setLinkMatrix] = useState()
   const [initMatrix, setInitMatrix] = useState()
   const [csvFile, setCsvFile] = useState()
   const [finMatrix, setFinMatrix] = useState()
@@ -193,8 +209,10 @@ const App = () => {
         <ForceGraph graph={graph} />
       </div>
       <SidebarMenu
+        graphFile={graphFile}
         grGraphFile={grGraphFile}
         arffGraphFile={arffGraphFile}
+        handleFileUpload={handleFileUpload}
         handleGrFileUpload={handleGrFileUpload}
         handleArffFileUpload={handleArffFileUpload}
         handleCsvDownload={handleCsvDownload}

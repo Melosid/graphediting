@@ -7,6 +7,7 @@ import { firstMatrix } from "./data/data";
 import { linkInitialMatrix, initialMatrix, finalMatrix, differenceMatrix } from './components/matrixGenerators'
 import { graphGenerator } from './components/d3Components/graphGenerator'
 import { downloadFile } from './components/downloadFile'
+import { fileGenerator } from './components/fileGenerator';
 
 const App = () => {
   const reader = new FileReader();
@@ -54,6 +55,11 @@ const App = () => {
     };
     let input = document.getElementById('arffUpload')
     input.value = ''
+  };
+
+  const handleModifiedDownload = () => {
+    var fileOut = fileGenerator(graph)
+    downloadFile("Graph", fileOut, "modified.txt");
   };
 
   const handleCsvDownload = () => {
@@ -194,6 +200,7 @@ const App = () => {
         handleFileUpload={handleFileUpload}
         handleGrFileUpload={handleGrFileUpload}
         handleArffFileUpload={handleArffFileUpload}
+        handleModifiedDownload={handleModifiedDownload}
         handleCsvDownload={handleCsvDownload}
         handleOutFileDownload={handleOutFileDownload}
         modified={modified}

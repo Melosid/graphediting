@@ -109,6 +109,10 @@ export const SidebarMenu = (props) => {
                             className="noDisplay"
                         />
                     </div>
+                    <div className={props.graphFile ? 'uploadGr green' : 'uploadGr'} onClick={props.handleModifiedDownload}>
+                        <img className="uploadIcon" src={outputDoc} />
+                        <span className="uploadspan">Download graph</span>
+                    </div>
                 </div>
                 <div className="sectionToggle" onClick={toggleGraphSection}>
                     <span className="sectionTitle">Graph options</span>

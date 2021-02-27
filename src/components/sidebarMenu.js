@@ -99,7 +99,7 @@ export const SidebarMenu = (props) => {
                     <img ref={uploadSectionMenuIconRef} className="menuIcon" src={downMenu} />
                 </div>
                 <div ref={uploadSectionRef} className="fileSection">
-                    <div className={props.grGraphFile ? 'uploadGr green' : 'uploadGr'} onClick={uploadGraphFile}>
+                    <div className={props.graphFile ? 'uploadGr green' : 'uploadGr'} onClick={uploadGraphFile}>
                         <img className="uploadIcon" src={uploadIcon} />
                         <span className="uploadspan">Upload file</span>
                         <input

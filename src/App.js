@@ -84,27 +84,14 @@ const App = () => {
 
   useEffect(() => {
     if (finMatrix) {
-      console.log("Initial Matrix", initMatrix);
-      console.log("CSV", csvFile);
-      console.log("Final Matrix", finMatrix);
       let diffMat = differenceMatrix(initMatrix, finMatrix, numberOfNodes)
       setDiffMatrix(diffMat.differenceMatrix)
       setOutputFile(diffMat.outFile)
     }
   }, [finMatrix])
 
-  useEffect(() => {
-    if (initMatrix && diffMatrix) {
-      console.log("Difference Matrix", diffMatrix);
-      console.log("Out file", outputFile);
-    }
-  }, [diffMatrix])
-
-  useEffect(() => {
-    console.log("Modified", modified);
-  }, [modified])
-
   const reset = () => {
+    setGraphFile(null)
     setGrGraphFile(null)
     setArffGraphFile(null)
     setCsvFile(null)
@@ -112,13 +99,11 @@ const App = () => {
     setGraph(graphGenerator(firstMatrix))
     setModified(false)
     setNumberOfNodes(firstMatrix.length)
-    console.log(firstMatrix.length);
   }
 
   const addNode = () => {
     setModified(true)
     let modify = Object.assign({}, graph)
-    console.log("Modified Graph", modify.nodes);
     modify.nodes.push({ id: numberOfNodes + 1 })
     setNumberOfNodes(numberOfNodes + 1)
     setGraph(modify)
@@ -134,12 +119,15 @@ const App = () => {
       let updatedNodes = nodesToCheck.filter((no) => (
         no.id != parseInt(node)
       ))
-      console.log("updated Nodes", updatedNodes);
+      if (parseInt(node) === numberOfNodes) {
+        var num = numberOfNodes
+        setNumberOfNodes(parseInt(num) - 1)
+      }
+      console.log(numberOfNodes);
       let linksToCheck = [...graph.links]
       let updatedLinks = linksToCheck.filter((li) => (
         (li.source.id ? li.source.id : li.source) != parseInt(node) && (li.target.id ? li.target.id : li.target) != parseInt(node)
       ))
-      console.log("Updated Links", updatedLinks);
       modify.nodes = updatedNodes
       modify.links = updatedLinks
       setGraph(modify)
@@ -151,8 +139,6 @@ const App = () => {
     let currentNodes = [...graph.nodes]
     let findNode1 = currentNodes.find((no) => no.id === parseInt(node1))
     let findNode2 = currentNodes.find((no) => no.id === parseInt(node2))
-    console.log("findNode1", findNode1);
-    console.log("findNode2", findNode2);
     if (node1 > numberOfNodes || node2 > numberOfNodes) {
       window.alert("One of nodes doesn't exist")
     } else if (
@@ -163,35 +149,28 @@ const App = () => {
       let modify = Object.assign({}, graph)
       setModified(true)
       let linksToCheck = [...graph.links]
-      console.log(graph.links);
-      console.log("linksToCheck", linksToCheck);
       let linksSimple = []
       linksToCheck.forEach((li) => {
         linksSimple.push({ source: li.source.id ? li.source.id : li.source, target: li.target.id ? li.target.id : li.target })
       })
-      console.log("linksSimple", linksSimple);
       let linkExists = linksSimple.find((li) => (
         (li.source === parseInt(node1) && li.target === parseInt(node2)) ||
         (li.source === parseInt(node2) && li.target === parseInt(node1))
       ))
       let updatedLinks = [...linksSimple]
       if (!!linkExists) {
-        console.log('Links already exists');
         updatedLinks = linksSimple.filter((li) => !(
           (li.source === parseInt(node1) && li.target === parseInt(node2)) ||
           (li.source === parseInt(node2) && li.target === parseInt(node1))
         ))
       } else {
-        console.log('link doesn"t exist');
         updatedLinks.push({ source: parseInt(node1), target: parseInt(node2) })
       }
-      console.log("Updated Links", updatedLinks);
       let nodesToCheck = [...graph.nodes]
       let updatedNodes = []
       nodesToCheck.forEach((no) => {
         updatedNodes.push({ id: no.id })
       })
-      console.log("updated Nodes", updatedNodes);
       modify.nodes = updatedNodes
       modify.links = updatedLinks
       console.log("modified graph", modify);

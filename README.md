@@ -1,4 +1,5 @@
+# graphediting
 Interactive Graph editing tool
+https://melosid.github.io/graphediting/
 
-![image](https://github.com/Melosid/graphediting/assets/35465480/8fa09fc4-b80e-42a2-9d59-06517caf9486)
-
+![image](https://github.com/Melosid/graphediting/assets/35465480/bf95dbae-cdb5-4d57-8730-37d239533699)
